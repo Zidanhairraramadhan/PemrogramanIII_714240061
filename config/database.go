@@ -14,9 +14,12 @@ var DB *gorm.DB
 
 func InitDB() {
 	err := godotenv.Load(".env")
+if err != nil {
+	err = godotenv.Load("../.env")
 	if err != nil {
-		log.Println("⚠️ .env tidak ditemukan")
+		log.Println("⚠️ .env tidak ditemukan di current maupun parent directory")
 	}
+}
 
 	dsn := os.Getenv("SUPABASE_DSN")
 
