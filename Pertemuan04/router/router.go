@@ -8,9 +8,9 @@ import (
 )
 
 func SetupRoutes(app *fiber.App) {
-	app.Get("/", func (c *fiber.Ctx) error {
+	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(model.Response{
-			Message : "API be_latihan aktif",
+			Message: "API be_latihan aktif",
 		})
 	})
 
