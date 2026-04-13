@@ -28,7 +28,7 @@ func TestInsertMahasiswa(t *testing.T) {
 		Nama : "Test User",
 		Prodi : "Teknik Informatika",
 		Alamat: "Bandung",
-		Email: "Baihaqisiregar09@ggmail.com",
+		Email: "zidan09@ggmail.com",
 		NoHP:   "081366299487",
 		Hobi: []string{"Ngoding", "Main Game"},
 	}
