@@ -1,0 +1,8 @@
+C:\Users\user\source\repos\P3_1_714240061\P3_1_714240061\bin\Debug\P3_1_714240061.exe.config
+C:\Users\user\source\repos\P3_1_714240061\P3_1_714240061\bin\Debug\P3_1_714240061.exe
+C:\Users\user\source\repos\P3_1_714240061\P3_1_714240061\bin\Debug\P3_1_714240061.pdb
+C:\Users\user\source\repos\P3_1_714240061\P3_1_714240061\obj\Debug\P3_1_714240061.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\P3_1_714240061\P3_1_714240061\obj\Debug\P3_1_714240061.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\P3_1_714240061\P3_1_714240061\obj\Debug\P3_1_714240061.exe
+C:\Users\user\source\repos\P3_1_714240061\P3_1_714240061\obj\Debug\P3_1_714240061.pdb
+C:\Users\user\source\repos\P3_1_714240061\P3_1_714240061\obj\Debug\P3_1_714240061.exe.config
