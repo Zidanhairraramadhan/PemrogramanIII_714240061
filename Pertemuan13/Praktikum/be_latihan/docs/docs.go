@@ -18,6 +18,63 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/change-password": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengubah password user yang sedang login berdasarkan token JWT. Membutuhkan password lama, password baru, dan konfirmasi password baru.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Ubah password user",
+                "parameters": [
+                    {
+                        "description": "Payload ubah password",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.ChangePasswordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Password berhasil diubah",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response200"
+                        }
+                    },
+                    "400": {
+                        "description": "Password lama/baru kosong atau konfirmasi tidak cocok",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Token JWT tidak valid atau password lama salah",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response401"
+                        }
+                    },
+                    "500": {
+                        "description": "Terjadi kesalahan pada server",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/mahasiswa/": {
             "get": {
                 "security": [
@@ -38,19 +95,19 @@ const docTemplate = `{
                 "summary": "Ambil semua data mahasiswa",
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Berhasil mengambil semua data mahasiswa",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.Response200"
                         }
                     },
                     "401": {
-                        "description": "Unauthorized",
+                        "description": "Token JWT tidak ada atau tidak valid",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.Response401"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Terjadi kesalahan pada server",
                         "schema": {
                             "$ref": "#/definitions/model.Response"
                         }
@@ -87,31 +144,31 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created",
+                        "description": "Mahasiswa berhasil ditambahkan",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.Response201"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Payload tidak valid atau NPM/Nama kosong",
                         "schema": {
                             "$ref": "#/definitions/model.Response"
                         }
                     },
                     "401": {
-                        "description": "Unauthorized",
+                        "description": "Token JWT tidak ada atau tidak valid",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.Response401"
                         }
                     },
                     "403": {
-                        "description": "Forbidden",
+                        "description": "Role user tidak memiliki akses ke endpoint ini",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.Response403"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Terjadi kesalahan pada server",
                         "schema": {
                             "$ref": "#/definitions/model.Response"
                         }
@@ -148,37 +205,37 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Data mahasiswa berhasil ditemukan",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.Response200"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Format NPM tidak valid",
                         "schema": {
                             "$ref": "#/definitions/model.Response"
                         }
                     },
                     "401": {
-                        "description": "Unauthorized",
+                        "description": "Token JWT tidak ada atau tidak valid",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.Response401"
                         }
                     },
                     "403": {
-                        "description": "Forbidden",
+                        "description": "Role user tidak memiliki akses ke endpoint ini",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.Response403"
                         }
                     },
                     "404": {
-                        "description": "Not Found",
+                        "description": "Data mahasiswa tidak ditemukan",
                         "schema": {
                             "$ref": "#/definitions/model.Response"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Terjadi kesalahan pada server",
                         "schema": {
                             "$ref": "#/definitions/model.Response"
                         }
@@ -222,37 +279,37 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Data mahasiswa berhasil diubah",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.Response200"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Format NPM atau payload tidak valid",
                         "schema": {
                             "$ref": "#/definitions/model.Response"
                         }
                     },
                     "401": {
-                        "description": "Unauthorized",
+                        "description": "Token JWT tidak ada atau tidak valid",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.Response401"
                         }
                     },
                     "403": {
-                        "description": "Forbidden",
+                        "description": "Role user tidak memiliki akses ke endpoint ini",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.Response403"
                         }
                     },
                     "404": {
-                        "description": "Not Found",
+                        "description": "Data mahasiswa tidak ditemukan",
                         "schema": {
                             "$ref": "#/definitions/model.Response"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Terjadi kesalahan pada server",
                         "schema": {
                             "$ref": "#/definitions/model.Response"
                         }
@@ -287,31 +344,31 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Mahasiswa berhasil dihapus",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.Response200"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Format NPM tidak valid",
                         "schema": {
                             "$ref": "#/definitions/model.Response"
                         }
                     },
                     "401": {
-                        "description": "Unauthorized",
+                        "description": "Token JWT tidak ada atau tidak valid",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.Response401"
                         }
                     },
                     "403": {
-                        "description": "Forbidden",
+                        "description": "Role user tidak memiliki akses ke endpoint ini",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.Response403"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Terjadi kesalahan pada server",
                         "schema": {
                             "$ref": "#/definitions/model.Response"
                         }
@@ -345,25 +402,25 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Login berhasil, token JWT dikembalikan",
                         "schema": {
                             "$ref": "#/definitions/model.LoginResponse"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Payload tidak valid",
                         "schema": {
                             "$ref": "#/definitions/model.Response"
                         }
                     },
                     "401": {
-                        "description": "Unauthorized",
+                        "description": "Username atau password salah",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.Response401"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Terjadi kesalahan pada server",
                         "schema": {
                             "$ref": "#/definitions/model.Response"
                         }
@@ -397,25 +454,25 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created",
+                        "description": "Register berhasil, akun user berhasil dibuat",
                         "schema": {
-                            "$ref": "#/definitions/model.AuthUserResponse"
+                            "$ref": "#/definitions/model.Response201"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Username atau password kosong, atau payload tidak valid",
                         "schema": {
                             "$ref": "#/definitions/model.Response"
                         }
                     },
                     "409": {
-                        "description": "Conflict",
+                        "description": "Username sudah digunakan",
                         "schema": {
                             "$ref": "#/definitions/model.Response"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Terjadi kesalahan pada server",
                         "schema": {
                             "$ref": "#/definitions/model.Response"
                         }
@@ -456,6 +513,23 @@ const docTemplate = `{
                 "username": {
                     "type": "string",
                     "example": "admin"
+                }
+            }
+        },
+        "model.ChangePasswordRequest": {
+            "type": "object",
+            "properties": {
+                "confirm_password": {
+                    "type": "string",
+                    "example": "newpassword456"
+                },
+                "new_password": {
+                    "type": "string",
+                    "example": "newpassword456"
+                },
+                "old_password": {
+                    "type": "string",
+                    "example": "admin123"
                 }
             }
         },
@@ -511,6 +585,44 @@ const docTemplate = `{
                 "message": {
                     "type": "string",
                     "example": "detail pesan"
+                }
+            }
+        },
+        "model.Response200": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
+                    "type": "string",
+                    "example": "berhasil mengambil data"
+                }
+            }
+        },
+        "model.Response201": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
+                    "type": "string",
+                    "example": "data berhasil ditambahkan"
+                }
+            }
+        },
+        "model.Response401": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "token tidak valid atau tidak ditemukan"
+                }
+            }
+        },
+        "model.Response403": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "user tidak memiliki akses untuk fitur ini"
                 }
             }
         }

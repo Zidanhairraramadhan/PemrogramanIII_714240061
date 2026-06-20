@@ -25,3 +25,10 @@ type LoginResponse struct {
 	Token string           `json:"token" example:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.xxxxx"`
 	User  AuthUserResponse `json:"user"`
 }
+
+// ChangePasswordRequest adalah struct body untuk endpoint ubah password
+type ChangePasswordRequest struct {
+	OldPassword     string `json:"old_password" example:"admin123"`
+	NewPassword     string `json:"new_password" example:"newpassword456"`
+	ConfirmPassword string `json:"confirm_password" example:"newpassword456"`
+}

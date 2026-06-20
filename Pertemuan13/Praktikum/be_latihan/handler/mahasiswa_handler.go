@@ -15,9 +15,9 @@ import (
 // @Security BearerAuth
 // @Accept json
 // @Produce json
-// @Success 200 {object} model.Response
-// @Failure 401 {object} model.Response
-// @Failure 500 {object} model.Response
+// @Success 200 {object} model.Response200 "Berhasil mengambil semua data mahasiswa"
+// @Failure 401 {object} model.Response401 "Token JWT tidak ada atau tidak valid"
+// @Failure 500 {object} model.Response "Terjadi kesalahan pada server"
 // @Router /api/mahasiswa/ [get]
 func GetAllMahasiswa(c *fiber.Ctx) error {
 	mahasiswas, err := repository.GetAllMahasiswa()
@@ -42,12 +42,12 @@ func GetAllMahasiswa(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param npm path string true "NPM mahasiswa"
-// @Success 200 {object} model.Response
-// @Failure 400 {object} model.Response
-// @Failure 401 {object} model.Response
-// @Failure 403 {object} model.Response
-// @Failure 404 {object} model.Response
-// @Failure 500 {object} model.Response
+// @Success 200 {object} model.Response200 "Data mahasiswa berhasil ditemukan"
+// @Failure 400 {object} model.Response "Format NPM tidak valid"
+// @Failure 401 {object} model.Response401 "Token JWT tidak ada atau tidak valid"
+// @Failure 403 {object} model.Response403 "Role user tidak memiliki akses ke endpoint ini"
+// @Failure 404 {object} model.Response "Data mahasiswa tidak ditemukan"
+// @Failure 500 {object} model.Response "Terjadi kesalahan pada server"
 // @Router /api/mahasiswa/{npm} [get]
 func GetMahasiswaByNPM(c *fiber.Ctx) error {
 	npm := c.Params("npm")
@@ -78,11 +78,11 @@ func GetMahasiswaByNPM(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param request body model.Mahasiswa true "Payload data mahasiswa"
-// @Success 201 {object} model.Response
-// @Failure 400 {object} model.Response
-// @Failure 401 {object} model.Response
-// @Failure 403 {object} model.Response
-// @Failure 500 {object} model.Response
+// @Success 201 {object} model.Response201 "Mahasiswa berhasil ditambahkan"
+// @Failure 400 {object} model.Response "Payload tidak valid atau NPM/Nama kosong"
+// @Failure 401 {object} model.Response401 "Token JWT tidak ada atau tidak valid"
+// @Failure 403 {object} model.Response403 "Role user tidak memiliki akses ke endpoint ini"
+// @Failure 500 {object} model.Response "Terjadi kesalahan pada server"
 // @Router /api/mahasiswa/ [post]
 func InsertMahasiswa(c *fiber.Ctx) error {
 	var mahasiswa model.Mahasiswa
@@ -122,12 +122,12 @@ func InsertMahasiswa(c *fiber.Ctx) error {
 // @Produce json
 // @Param npm path string true "NPM mahasiswa"
 // @Param request body model.Mahasiswa true "Payload data mahasiswa"
-// @Success 200 {object} model.Response
-// @Failure 400 {object} model.Response
-// @Failure 401 {object} model.Response
-// @Failure 403 {object} model.Response
-// @Failure 404 {object} model.Response
-// @Failure 500 {object} model.Response
+// @Success 200 {object} model.Response200 "Data mahasiswa berhasil diubah"
+// @Failure 400 {object} model.Response "Format NPM atau payload tidak valid"
+// @Failure 401 {object} model.Response401 "Token JWT tidak ada atau tidak valid"
+// @Failure 403 {object} model.Response403 "Role user tidak memiliki akses ke endpoint ini"
+// @Failure 404 {object} model.Response "Data mahasiswa tidak ditemukan"
+// @Failure 500 {object} model.Response "Terjadi kesalahan pada server"
 // @Router /api/mahasiswa/{npm} [put]
 func UpdateMahasiswa(c *fiber.Ctx) error {
 	npm := c.Params("npm")
@@ -166,11 +166,11 @@ func UpdateMahasiswa(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param npm path string true "NPM mahasiswa"
-// @Success 200 {object} model.Response
-// @Failure 400 {object} model.Response
-// @Failure 401 {object} model.Response
-// @Failure 403 {object} model.Response
-// @Failure 500 {object} model.Response
+// @Success 200 {object} model.Response200 "Mahasiswa berhasil dihapus"
+// @Failure 400 {object} model.Response "Format NPM tidak valid"
+// @Failure 401 {object} model.Response401 "Token JWT tidak ada atau tidak valid"
+// @Failure 403 {object} model.Response403 "Role user tidak memiliki akses ke endpoint ini"
+// @Failure 500 {object} model.Response "Terjadi kesalahan pada server"
 // @Router /api/mahasiswa/{npm} [delete]
 func DeleteMahasiswa(c *fiber.Ctx) error {
 	npm := c.Params("npm")

@@ -19,10 +19,10 @@ import (
 // @Accept json
 // @Produce json
 // @Param request body model.AuthRequest true "Payload register user"
-// @Success 201 {object} model.AuthUserResponse
-// @Failure 400 {object} model.Response
-// @Failure 409 {object} model.Response
-// @Failure 500 {object} model.Response
+// @Success 201 {object} model.Response201 "Register berhasil, akun user berhasil dibuat"
+// @Failure 400 {object} model.Response "Username atau password kosong, atau payload tidak valid"
+// @Failure 409 {object} model.Response "Username sudah digunakan"
+// @Failure 500 {object} model.Response "Terjadi kesalahan pada server"
 // @Router /register [post]
 func Register(c *fiber.Ctx) error {
 	var payload model.AuthRequest
@@ -84,10 +84,10 @@ func Register(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param request body model.AuthRequest true "Payload login user"
-// @Success 200 {object} model.LoginResponse
-// @Failure 400 {object} model.Response
-// @Failure 401 {object} model.Response
-// @Failure 500 {object} model.Response
+// @Success 200 {object} model.LoginResponse "Login berhasil, token JWT dikembalikan"
+// @Failure 400 {object} model.Response "Payload tidak valid"
+// @Failure 401 {object} model.Response401 "Username atau password salah"
+// @Failure 500 {object} model.Response "Terjadi kesalahan pada server"
 // @Router /login [post]
 func Login(c *fiber.Ctx) error {
 	var payload model.AuthRequest
@@ -139,6 +139,19 @@ func Login(c *fiber.Ctx) error {
 	})
 }
 
+// ChangePassword godoc
+// @Summary Ubah password user
+// @Description Mengubah password user yang sedang login berdasarkan token JWT. Membutuhkan password lama, password baru, dan konfirmasi password baru.
+// @Tags Auth
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param request body model.ChangePasswordRequest true "Payload ubah password"
+// @Success 200 {object} model.Response200 "Password berhasil diubah"
+// @Failure 400 {object} model.Response "Password lama/baru kosong atau konfirmasi tidak cocok"
+// @Failure 401 {object} model.Response401 "Token JWT tidak valid atau password lama salah"
+// @Failure 500 {object} model.Response "Terjadi kesalahan pada server"
+// @Router /api/change-password [put]
 func ChangePassword(c *fiber.Ctx) error {
 	var payload struct {
 		OldPassword     string `json:"old_password"`

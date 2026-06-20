@@ -24,6 +24,18 @@ definitions:
         example: admin
         type: string
     type: object
+  model.ChangePasswordRequest:
+    properties:
+      confirm_password:
+        example: newpassword456
+        type: string
+      new_password:
+        example: newpassword456
+        type: string
+      old_password:
+        example: admin123
+        type: string
+    type: object
   model.LoginResponse:
     properties:
       token:
@@ -63,6 +75,32 @@ definitions:
         example: detail pesan
         type: string
     type: object
+  model.Response200:
+    properties:
+      data: {}
+      message:
+        example: berhasil mengambil data
+        type: string
+    type: object
+  model.Response201:
+    properties:
+      data: {}
+      message:
+        example: data berhasil ditambahkan
+        type: string
+    type: object
+  model.Response401:
+    properties:
+      message:
+        example: token tidak valid atau tidak ditemukan
+        type: string
+    type: object
+  model.Response403:
+    properties:
+      message:
+        example: user tidak memiliki akses untuk fitur ini
+        type: string
+    type: object
 host: 127.0.0.1:3000
 info:
   contact:
@@ -73,6 +111,43 @@ info:
   title: API Praktikum 13 - be_latihan
   version: "1.0"
 paths:
+  /api/change-password:
+    put:
+      consumes:
+      - application/json
+      description: Mengubah password user yang sedang login berdasarkan token JWT.
+        Membutuhkan password lama, password baru, dan konfirmasi password baru.
+      parameters:
+      - description: Payload ubah password
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.ChangePasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Password berhasil diubah
+          schema:
+            $ref: '#/definitions/model.Response200'
+        "400":
+          description: Password lama/baru kosong atau konfirmasi tidak cocok
+          schema:
+            $ref: '#/definitions/model.Response'
+        "401":
+          description: Token JWT tidak valid atau password lama salah
+          schema:
+            $ref: '#/definitions/model.Response401'
+        "500":
+          description: Terjadi kesalahan pada server
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - BearerAuth: []
+      summary: Ubah password user
+      tags:
+      - Auth
   /api/mahasiswa/:
     get:
       consumes:
@@ -83,15 +158,15 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Berhasil mengambil semua data mahasiswa
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.Response200'
         "401":
-          description: Unauthorized
+          description: Token JWT tidak ada atau tidak valid
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.Response401'
         "500":
-          description: Internal Server Error
+          description: Terjadi kesalahan pada server
           schema:
             $ref: '#/definitions/model.Response'
       security:
@@ -115,23 +190,23 @@ paths:
       - application/json
       responses:
         "201":
-          description: Created
+          description: Mahasiswa berhasil ditambahkan
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.Response201'
         "400":
-          description: Bad Request
+          description: Payload tidak valid atau NPM/Nama kosong
           schema:
             $ref: '#/definitions/model.Response'
         "401":
-          description: Unauthorized
+          description: Token JWT tidak ada atau tidak valid
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.Response401'
         "403":
-          description: Forbidden
+          description: Role user tidak memiliki akses ke endpoint ini
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.Response403'
         "500":
-          description: Internal Server Error
+          description: Terjadi kesalahan pada server
           schema:
             $ref: '#/definitions/model.Response'
       security:
@@ -155,23 +230,23 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Mahasiswa berhasil dihapus
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.Response200'
         "400":
-          description: Bad Request
+          description: Format NPM tidak valid
           schema:
             $ref: '#/definitions/model.Response'
         "401":
-          description: Unauthorized
+          description: Token JWT tidak ada atau tidak valid
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.Response401'
         "403":
-          description: Forbidden
+          description: Role user tidak memiliki akses ke endpoint ini
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.Response403'
         "500":
-          description: Internal Server Error
+          description: Terjadi kesalahan pada server
           schema:
             $ref: '#/definitions/model.Response'
       security:
@@ -194,27 +269,27 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Data mahasiswa berhasil ditemukan
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.Response200'
         "400":
-          description: Bad Request
+          description: Format NPM tidak valid
           schema:
             $ref: '#/definitions/model.Response'
         "401":
-          description: Unauthorized
+          description: Token JWT tidak ada atau tidak valid
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.Response401'
         "403":
-          description: Forbidden
+          description: Role user tidak memiliki akses ke endpoint ini
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.Response403'
         "404":
-          description: Not Found
+          description: Data mahasiswa tidak ditemukan
           schema:
             $ref: '#/definitions/model.Response'
         "500":
-          description: Internal Server Error
+          description: Terjadi kesalahan pada server
           schema:
             $ref: '#/definitions/model.Response'
       security:
@@ -243,27 +318,27 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Data mahasiswa berhasil diubah
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.Response200'
         "400":
-          description: Bad Request
+          description: Format NPM atau payload tidak valid
           schema:
             $ref: '#/definitions/model.Response'
         "401":
-          description: Unauthorized
+          description: Token JWT tidak ada atau tidak valid
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.Response401'
         "403":
-          description: Forbidden
+          description: Role user tidak memiliki akses ke endpoint ini
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.Response403'
         "404":
-          description: Not Found
+          description: Data mahasiswa tidak ditemukan
           schema:
             $ref: '#/definitions/model.Response'
         "500":
-          description: Internal Server Error
+          description: Terjadi kesalahan pada server
           schema:
             $ref: '#/definitions/model.Response'
       security:
@@ -288,19 +363,19 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Login berhasil, token JWT dikembalikan
           schema:
             $ref: '#/definitions/model.LoginResponse'
         "400":
-          description: Bad Request
+          description: Payload tidak valid
           schema:
             $ref: '#/definitions/model.Response'
         "401":
-          description: Unauthorized
+          description: Username atau password salah
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.Response401'
         "500":
-          description: Internal Server Error
+          description: Terjadi kesalahan pada server
           schema:
             $ref: '#/definitions/model.Response'
       summary: Login user
@@ -323,19 +398,19 @@ paths:
       - application/json
       responses:
         "201":
-          description: Created
+          description: Register berhasil, akun user berhasil dibuat
           schema:
-            $ref: '#/definitions/model.AuthUserResponse'
+            $ref: '#/definitions/model.Response201'
         "400":
-          description: Bad Request
+          description: Username atau password kosong, atau payload tidak valid
           schema:
             $ref: '#/definitions/model.Response'
         "409":
-          description: Conflict
+          description: Username sudah digunakan
           schema:
             $ref: '#/definitions/model.Response'
         "500":
-          description: Internal Server Error
+          description: Terjadi kesalahan pada server
           schema:
             $ref: '#/definitions/model.Response'
       summary: Register user baru
